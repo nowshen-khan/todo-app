@@ -7,6 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Importance {
+  high
+  medium
+  low
+}
+
 model Todo {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   text       String

@@ -24,8 +24,6 @@ export async function POST(req: NextRequest) {
   try {
    const body = await req.json();
 const { text, category, importance, pinned } = body;
-
-
 const created = await prisma.todo.create({
 data: {
 text: String(text ?? "").trim(),
@@ -34,14 +32,8 @@ importance: (importance ?? "medium") as any,
 pinned: Boolean(pinned ?? false),
 },
 });
-
-
 return NextResponse.json({ ...created, _id: created.id, id: created.id });
-}
-  
-
-
-  catch (error) {
+} catch (error) {
    console.error(error);
 return NextResponse.json({ error: "Could not create todo" }, { status: 500 });
 }

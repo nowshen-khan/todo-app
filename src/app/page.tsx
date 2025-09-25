@@ -6,7 +6,7 @@ import { Todo } from "@/utils/types";
 import AddTodo from "@/components/AddTodo";
 import TodoList from "@/components/TodoList";
 import CompletedTodoItem from "@/components/CompletedTodoItem";
-import ActiveTodoItem from "@/components/ActiveTodoItem";
+
 
 /** Importance helpers for completed tasks */
 const importanceLabel: Record<Todo["importance"], string> = {
@@ -31,9 +31,20 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  type RawTodo = {
+    _id?: { toString(): string };
+    id?: { toString(): string };
+    text?: string;
+    completed?: boolean;
+    category?: string;
+    importance?: Todo["importance"];
+    pinned?: boolean;
+    createdAt?: string;
+    created_at?: string;
+  };
   /** Normalize backend data */
-  const normalize = (raw: any): Todo => ({
-    id: raw._id?.toString() ?? raw.id?.toString(),
+  const normalize = (raw: RawTodo): Todo => ({
+    id: raw._id?.toString() ?? raw.id?.toString() ?? "",
     text: raw.text ?? "",
     completed: !!raw.completed,
     category: raw.category ?? "General",
