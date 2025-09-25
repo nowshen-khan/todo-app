@@ -12,7 +12,7 @@ interface Props {
   addTask: () => void;
 }
 
-const AddTodo = ({ task, setTask, category, setCategory, importance, setImportance, addTask }: Props) => (
+const AddTodo: React.FC<Props> = ({ task, setTask, category, setCategory, importance, setImportance, addTask }) => (
   <section className="w-full max-w-3xl bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
     <div className="flex flex-col sm:flex-row gap-2">
       <input

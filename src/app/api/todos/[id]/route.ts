@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-
 import { z } from "zod";
 
 const updateTodoSchema = z.object({
@@ -12,16 +11,10 @@ const updateTodoSchema = z.object({
   order: z.number().optional(),
 });
 
-// ✅ Task Delete করা
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params; 
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
   try {
-    const deletedTodo = await prisma.todo.delete({
-      where: { id },
-    });
+    const deletedTodo = await prisma.todo.delete({ where: { id } });
     return NextResponse.json(deletedTodo);
   } catch (error) {
     console.error(error);
@@ -29,24 +22,16 @@ export async function DELETE(
   }
 }
 
-// ✅ Task Update করা (complete toggle, pin/unpin, etc.)
-export async function PATCH(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
 
   try {
     const body = await req.json();
-    const parsed = updateTodoSchema.parse(body); // ✅ typed
+    const parsed = updateTodoSchema.parse(body);
 
-    // Only include fields present in the request
     const data: Partial<typeof parsed> = parsed;
 
-    const updated = await prisma.todo.update({
-      where: { id },
-      data,
-    });
+    const updated = await prisma.todo.update({ where: { id }, data });
 
     return NextResponse.json({ ...updated, _id: updated.id, id: updated.id });
   } catch (error) {
