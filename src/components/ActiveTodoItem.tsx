@@ -1,7 +1,12 @@
 "use client";
-import React, {forwardRef} from "react";
+import React from "react";
 import { Todo } from "@/utils/types";
 import { importanceLabel, importanceBadge } from "@/utils/importance";
+import {
+  DraggableProvidedDraggableProps,
+  DraggableProvidedDragHandleProps,
+} from "@hello-pangea/dnd";
+
 
 interface Props {
   todo: Todo;
@@ -16,8 +21,8 @@ interface Props {
   saveEdit: (id: string) => void;
   cancelEdit: () => void;
 
-  draggableProps?: any;   // ✅ added
-  dragHandleProps?: any;  // ✅ added
+  draggableProps?: DraggableProvidedDraggableProps;
+  dragHandleProps?: DraggableProvidedDragHandleProps;
 }
 
 /** Forward ref for Draggable */
@@ -101,5 +106,8 @@ const ActiveTodoItem = React.forwardRef<HTMLLIElement, Props>(({
     </li>
   );
 });
+
+ActiveTodoItem.displayName = "ActiveTodoItem";
+
 
 export default ActiveTodoItem;
